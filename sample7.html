@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<script src="http://d3js.org/d3.v4.min.js"></script>
+
+<style>
+
+.chart rect { fill: steelblue; }
+#tooltip {
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    width: 60px; height: 40px;
+    background: white;
+    border: 0px;
+}
+</style>
+
+<html><body>
+<p id= "introduction"><b>
+  Welcome to a comparison of different features of 13
+  different brands of cars, the third of which would be the miles per hour.</b><span id="data"></span></p>
+<ul>
+  <li>AMC Ambassafor Brougham</li>
+  <li>BMW 2002</li>
+  <li>Cadillac Seville</li>
+  <li>Datsun 1200</li>
+  <li>Ford Country</li>
+  <li>Honda Accord</li>
+  <li>Mercedes-Benz 240D</li>
+  <li>Oladsmobile Omega</li>
+  <li>Plymouth Champ</li>
+  <li>Renault 18I</li>
+  <li>Subaru</li>
+  <li>Toyota Celica GT</li>
+  <li>Vokswagen Rabbit</li>
+
+</ul>
+<svg class="chart" id= "true"></svg>
+
+<div id="tooltip"></div>
+
+<script>
+var width = 300;
+var height = 300;
+var cars= ['AMC Ambassador Brougham','BMW 2002','Cadillac Seville','Datsun 1200',
+'Ford Country','Honda Accord','Mercedes-Benz 240D','Oldsmobile Omega',
+'Plymouth Champ','Renault 18I','Subaru','Toyota Celica GT','Vokswagen Rabbit'];
+
+var mph = [11, 12.5, 12.1, 18, 12.5, 16, 21.8, 11, 16.4, 15.8, 17.8, 13.8, 14.7];
+document.getElementById("data").innerHTML = "MPG stands for Miles Per Gallon, which measures energy efficiency.";
+
+var xs= d3.scaleBand(cars).range(mph);
+var ys= d3.scaleLinear().domain([10, 22]).range([0, 300]);
+var tooltip = d3.select("#tooltip");
+
+d3.select(".chart")
+    .attr("width",width)
+    .attr("height",height)
+    .selectAll("rect")
+    .data(mph)
+    .enter().append("rect")
+    .attr("width",19)
+    .attr("height",function(d) { return ys(d); })
+    .attr("x",function(d,i) { return 20*i; })
+    .attr("y",function(d) { return height-ys(d); })
+    .on("mouseover", function(d,i) {
+        tooltip.style("opacity", 1)
+               .style("left",(d3.event.pageX)+"px")
+               .style("top",(d3.event.pageY)+"px")
+               .html(cars[i] + " is "+d);
+    })
+    .on("mouseout", function() { tooltip.style("opacity", 0) });
+
+
+</script>
+
+<p>Please click on the bottom buttons to navigate through the scenes.</p>
+<h1>Please answer the following question: which brand of cars is most energy efficient?<h1>
+<button id= MQ onClick= myFunctionYes()>Plymouth Champ</button>
+<button id= AQ onClick= myFunctionNo1()>AMC Ambassador Brougham</button>
+<button id= JQ onClick= myFunctionNo2()>Datsun 1200</button>
+<button id = FQ onClick= myFunctionNo3()>Subaru</button>
+<a href= "/Users/no-face/Desktop/sample5.html">Energy Efficiency</a>
+<a href= "/Users/no-face/Desktop/sample6.html">Horse Power</a>
+
+<script>
+function myFunctionYes() {
+  document.getElementById("MQ").innerHTML= "Correct! Congratulations!"
+};
+function myFunctionNo1() {
+  document.getElementById("AQ").innerHTML= "Sorry, incorrect. Please try again!"
+
+};
+function myFunctionNo2() {
+  document.getElementById("JQ").innerHTML= "Sorry, incorrect. Please try again!"
+
+};
+function myFunctionNo3() {
+  document.getElementById("FQ").innerHTML= "Sorry, incorrect. Please try again!"
+
+};
+</script>
+
+
+</body></html>
